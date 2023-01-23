@@ -18,7 +18,7 @@ pipeline {
           }
           steps {
             sh 'sh ci/build-app.sh'
-            archiveArtifacts 'app/build/libs'
+            archiveArtifacts 'app/build/libs/'
           }
         }
 
