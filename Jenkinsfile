@@ -8,15 +8,24 @@ pipeline {
     )
   }
   stages {
-    stage('Say Hello') {
+    stage('clone down') {
+      agent {
+        label 'swarm'
+      }
+
+      steps {
+        stash excludes: '.git/', name: 'code'
+      }
+    }
+    stage('say hello') {
       parallel {
-        stage('Say Hello') {
+        stage('say hello') {
           steps {
             sh 'echo "Hello World!"'
           }
         }
 
-        stage('Build-app') {
+        stage('build app') {
           agent {
             docker {
               image 'gradle:6-jdk11'
@@ -24,6 +33,8 @@ pipeline {
 
           }
           steps {
+            skipDefaultCheckout(true)
+            unstash 'code'
             sh 'sh ci/build-app.sh'
             archiveArtifacts 'app/build/libs/'
           }
