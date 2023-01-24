@@ -17,6 +17,7 @@ pipeline {
         stash excludes: '.git/', name: 'code'
       }
     }
+
     stage('say hello') {
       parallel {
         stage('say hello') {
@@ -30,24 +31,30 @@ pipeline {
             docker {
               image 'gradle:6-jdk11'
             }
-
           }
+
           steps {
             skipDefaultCheckout(true)
             unstash 'code'
-            sh 'sh ci/build-app.sh'
+            sh 'ci/build-app.sh'
             archiveArtifacts 'app/build/libs/'
           }
         }
 
         stage('test app') {
+          agent {
+            docker {
+              image 'gradle:6-jdk11'
+            }
+          }
+
           steps {
+            unstash 'code'
             sh 'ci/unit-test-app.sh'
             junit 'app/build/test-results/test/TEST-*.xml'
           }
         }
       }
     }
-
   }
 }
