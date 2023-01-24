@@ -22,6 +22,10 @@ pipeline {
 
       parallel {
         stage('build app') {
+          options {
+            skipDefaultCheckout(true)
+          }
+
           agent {
               docker {
               image 'gradle:6-jdk11'
@@ -29,7 +33,6 @@ pipeline {
           }
 
           steps {
-            skipDefaultCheckout(true)
             unstash 'code'
             sh 'ci/build-app.sh'
             archiveArtifacts 'app/build/libs/'
@@ -41,6 +44,10 @@ pipeline {
               docker {
               image 'gradle:6-jdk11'
             }
+          }
+
+          options {
+            skipDefaultCheckout(true)
           }
 
           steps {
