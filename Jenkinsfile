@@ -19,13 +19,14 @@ pipeline {
     }
 
     stage('say hello') {
-      agent {
-        docker {
-          image 'gradle:6-jdk11'
-        }
-      }
 
       parallel {
+        agent {
+          docker {
+            image 'gradle:6-jdk11'
+          }
+        }
+
         stage('build app') {
           steps {
             skipDefaultCheckout(true)
