@@ -21,13 +21,13 @@ pipeline {
     stage('say hello') {
 
       parallel {
-        agent {
-          docker {
-            image 'gradle:6-jdk11'
-          }
-        }
-
         stage('build app') {
+          agent {
+              docker {
+              image 'gradle:6-jdk11'
+            }
+          }
+
           steps {
             skipDefaultCheckout(true)
             unstash 'code'
@@ -37,6 +37,12 @@ pipeline {
         }
 
         stage('test app') {
+          agent {
+              docker {
+              image 'gradle:6-jdk11'
+            }
+          }
+
           steps {
             unstash 'code'
             sh 'ci/unit-test-app.sh'
