@@ -34,7 +34,7 @@ pipeline {
 
           steps {
             unstash 'code'
-            // sh 'ci/build-app.sh'
+            sh 'ci/build-app.sh'
             // archiveArtifacts 'app/build/libs/'
           }
         }
@@ -52,8 +52,6 @@ pipeline {
 
           steps {
             unstash 'code'
-            sh 'ci/build-app.sh'
-
             sh 'ci/unit-test-app.sh'
             junit 'app/build/test-results/test/TEST-*.xml'
           }
