@@ -40,6 +40,12 @@ pipeline {
           }
         }
 
+        stage('test app') {
+          steps {
+            sh 'ci/unit-test-app.sh'
+            junit 'app/build/test-results/test/TEST-*.xml'
+          }
+        }
       }
     }
 
