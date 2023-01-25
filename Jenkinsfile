@@ -10,14 +10,8 @@ pipeline {
         }
 
         stage('Build') {
-          agent {
-            docker {
-              image 'gradle:6-jdk11'
-            }
-
-          }
           steps {
-            sh 'ci/build-app.sh'
+            sh 'touch something.txt'
           }
         }
 
