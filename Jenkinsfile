@@ -12,6 +12,7 @@ pipeline {
         stage('Build') {
           steps {
             sh 'touch something.txt'
+            archiveArtifacts artifacts: 'something.txt', followSymlinks: false
           }
         }
 
